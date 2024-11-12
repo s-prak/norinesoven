@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norine's Oven - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="Norine's Oven Logo" class="logo">
+        <div>
+            <h1>Welcome to Norine's Oven</h1>
+            <p class="tagline">"Homemade goodness in every bite!!"</p>
+        </div>
+    </header>
+
+    <section id="preorder" class="preorder-section">
+        <div class="preorder-content">
+            <h2>Pre-order Our Homemade Cakes</h2>
+            <p>Freshly baked with love, just for you!</p>
+            <p class="price-info">Starting at <strong>₹180</strong> for a slice.</p>
+            <a href="https://wa.me/8497972737" class="preorder-button">Pre-order Now</a>
+        </div>
+    </section>
+    
+    <section id="products" class="product-list">
+        <h2>Our Products</h2>
+        
+        <!-- Product List -->
+        <div class="product">
+            <img src="images/rich-plum-cake.jpeg" alt="Rich Plum Cake">
+            <h3>Rich Plum Cake</h3>
+            <p>Deliciously moist and rich with dried fruits.</p>
+            <p class="price">₹1750/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-rich-plum-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Rich Plum Cake', 1750, 'quantity-rich-plum-cake')">Add to Cart</button>
+        </div>
+    
+        <div class="product">
+            <img src="images/banana-cake.jpeg" alt="Banana Cake">
+            <h3>Banana Cake</h3>
+            <p>Freshly baked with ripe bananas for a sweet treat.</p>
+            <p class="price">₹900/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-banana-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Banana Cake', 900, 'quantity-banana-cake')">Add to Cart</button>
+        </div>
+    
+        <div class="product">
+            <img src="images/carrot-dates-cake.jpeg" alt="Carrot Dates Cake">
+            <h3>Carrot Dates Cake</h3>
+            <p>Made with fresh carrots and natural sweetness from dates.</p>
+            <p class="price">₹1500/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-carrot-dates-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Carrot Dates Cake', 1500, 'quantity-carrot-dates-cake')">Add to Cart</button>
+        </div>
+    
+        <div class="product">
+            <img src="images/plum-cake.jpeg" alt="Plum Cake">
+            <h3>Plum Cake</h3>
+            <p>Classic plum cake with a rich, aromatic flavor.</p>
+            <p class="price">₹1500/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-plum-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Plum Cake', 1500, 'quantity-plum-cake')">Add to Cart</button>
+        </div>
+    
+        <div class="product">
+            <img src="images/carrot-cake.jpeg" alt="Carrot Cake">
+            <h3>Carrot Cake</h3>
+            <p>A moist and flavorful carrot cake with cream cheese frosting.</p>
+            <p class="price">₹1100/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-carrot-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Carrot Cake', 1100, 'quantity-carrot-cake')">Add to Cart</button>
+        </div>
+    
+        <div class="product">
+            <img src="images/banana-walnut-cake.jpeg" alt="Banana Walnut Cake">
+            <h3>Banana Walnut Cake</h3>
+            <p>Banana and walnut combination for a delightful flavor.</p>
+            <p class="price">₹1400/- per kg</p>
+            <label>Quantity: <input type="number" id="quantity-banana-walnut-cake" min="1" value="1"></label>
+            <button class="buy-now" onclick="addToCart('Banana Walnut Cake', 1400, 'quantity-banana-walnut-cake')">Add to Cart</button>
+        </div>
+    </section>
+    
+
+    <!-- Cart and Checkout Section -->
+    <section id="cart-section">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <p>Total Cost: ₹<span id="total-cost">0</span></p>
+        <button onclick="checkout()">Proceed to Pre-Order on WhatsApp</button>
+    </section>
+
+    <footer>
+        <p>Contact us:</p>
+        <p>WhatsApp: <a href="https://wa.me/8497972737">84 9797 2737</a> | Instagram: <a href="https://instagram.com/norinesoven">@norinesoven</a> | Email: <a href="mailto:norinesoven180dc@gmail.com">norinesoven180dc@gmail.com</a></p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        let cart = {}; // Cart object to store product names, quantities, and prices
+
+        function addToCart(productName, price, quantityId) {
+            const quantity = parseInt(document.getElementById(quantityId).value);
+            if (quantity <= 0) {
+                alert("Please enter a valid quantity.");
+                return;
+            }
+
+            // Update cart with product details
+            if (cart[productName]) {
+                cart[productName].quantity += quantity;
+            } else {
+                cart[productName] = { price: price, quantity: quantity };
+            }
+            
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById("cart-items");
+            cartItemsDiv.innerHTML = ''; // Clear previous items
+
+            let totalCost = 0;
+            for (const productName in cart) {
+                const { price, quantity } = cart[productName];
+                const itemCost = price * quantity;
+                totalCost += itemCost;
+
+                // Display each item in the cart
+                const itemDiv = document.createElement("div");
+                itemDiv.textContent = `${productName} - Quantity: ${quantity}, Total: ₹${itemCost}`;
+                cartItemsDiv.appendChild(itemDiv);
+            }
+            
+            document.getElementById("total-cost").textContent = totalCost;
+        }
+
+        function checkout() {
+            let orderSummary = "Hello, I would like to place an order:\n\n";
+            let totalCost = 0;
+
+            for (const productName in cart) {
+                const { price, quantity } = cart[productName];
+                const itemCost = price * quantity;
+                totalCost += itemCost;
+
+                orderSummary += `- ${productName}: ${quantity} x ₹${price} = ₹${itemCost}\n`;
+            }
+            
+            orderSummary += `\nTotal Cost: ₹${totalCost}\n\nThank you!`;
+            const encodedMessage = encodeURIComponent(orderSummary);
+            const whatsappNumber = "8497972737";
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
